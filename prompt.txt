@@ -1,0 +1,47 @@
+Create a single-page web application with the following specifications:
+Core Functionality:
+
+Build a countdown timer that calculates days, Hours, Minutes and Seconds remaining until June 20, 2025
+Display the title "Weil Lake EOM" prominently at the top
+
+Visual Design:
+
+Use a flip clock/digital counter style for the digits
+Each digit should have a realistic flip animation effect (like old airport departure boards)
+Make the digits large and easily readable
+Use a clean, modern design with good contrast
+
+Quote Feature:
+
+Include 5-8 predefined inspirational or motivational quotes
+Display one random quote below the countdown on each page load
+Format the quote with proper attribution if applicable
+
+Technical Requirements:
+
+Use vanilla HTML, CSS, and JavaScript (no external frameworks required)
+Make it responsive for both desktop and mobile devices
+Include smooth animations for the flip clock effect
+Ensure the countdown updates automatically (every 24 hours or on page refresh)
+
+Additional Details:
+
+Use CSS animations or transitions for the flip effect
+Consider using a monospace font for the digits to maintain consistent spacing
+Add subtle styling to make it visually appealing but not distracting from the countdown
+Add background video animation of a Hacker writing code
+Add to the quotes that the person who said them is "Oren"
+Add below the days remaining the following test in some Retro style font: 
+"Farewell Party 17-June-2025"
+
+Make sure this page can be published in GitHub pages or Azure Static Web Page 
+
+Predefine Quotes:
+1) "It is Anat's Bug"
+2) "It is Mahammad's Bug"
+3) "It is a Firmware Bug"
+4) "It is a Hardware Bug"
+5) "Works on my platform"
+6) "It complied"
+7) "Validation didn't test it"
+8) "I ran UT17 on it"

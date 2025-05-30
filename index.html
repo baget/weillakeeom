@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weil Lake EOM</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <div class="container">
+        <h1>Weil Lake EOM</h1>
+        
+        <div class="countdown">
+            <div class="time-section">
+                <div class="flip-clock">
+                    <div class="digit-group days">
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">DAYS</div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <div class="flip-clock">
+                    <div class="digit-group hours">
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">HOURS</div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <div class="flip-clock">
+                    <div class="digit-group minutes">
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">MINUTES</div>
+                </div>
+            </div>
+
+            <div class="time-section">
+                <div class="flip-clock">
+                    <div class="digit-group seconds">
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                        <div class="flip-card">
+                            <div class="card">
+                                <div class="card-face card-face-front">0</div>
+                                <div class="card-face card-face-back">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label">SECONDS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="farewell-text">Farewell Party 17-June-2025</div>
+
+        <div class="quote-container">
+            <blockquote id="quote"></blockquote>
+            <cite id="author"></cite>
+        </div>
+    </div>
+
+    <script src="matrix.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
