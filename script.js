@@ -10,8 +10,9 @@ const quotes = [
     { text: "I ran UT17 on it", author: "Oren" }
 ];
 
-// Target date: June 20, 2025
-const targetDate = new Date('2025-06-20T00:00:00');
+// Set target date to June 20, 2025 midnight Jerusalem time
+const targetDate = new Date(Date.UTC(2025, 5, 19, 21, 0, 0, 0)); // 00:00 Jerusalem time (UTC+3) on June 20
+console.log('Initial target date:', targetDate.toUTCString()); // Debug target date
 
 // DOM elements
 const daysDigits = document.querySelector('.days');
@@ -26,6 +27,31 @@ const ANIMATION_DURATION = 700; // 700ms to match CSS
 
 // Track last update time for each digit
 const lastUpdates = new Map();
+
+// Function to get current time in Jerusalem timezone
+function getCurrentTime() {
+    const now = new Date();
+    // Get current time in UTC
+    const utcHours = now.getUTCHours();
+    const utcMinutes = now.getUTCMinutes();
+    const utcSeconds = now.getUTCSeconds();
+    const utcMs = now.getUTCMilliseconds();
+    
+    // Create new date with Jerusalem time (UTC+3)
+    const jerusalemTime = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        utcHours + 3, // Add 3 hours for Jerusalem timezone
+        utcMinutes,
+        utcSeconds,
+        utcMs
+    ));
+    
+    console.log('UTC time:', now.toUTCString());
+    console.log('Jerusalem time:', jerusalemTime.toISOString());
+    return jerusalemTime;
+}
 
 // Function to update a single digit
 function updateDigit(flipCard, newValue, forceUpdate = false) {
@@ -43,6 +69,13 @@ function updateDigit(flipCard, newValue, forceUpdate = false) {
     // Update last update time
     lastUpdates.set(flipCard, now);
     
+    // Update both faces immediately on initialization
+    if (forceUpdate) {
+        frontFace.textContent = newValue;
+        backFace.textContent = newValue;
+        return;
+    }
+    
     // Update back face and trigger flip
     backFace.textContent = newValue;
     card.classList.add('flip');
@@ -55,45 +88,56 @@ function updateDigit(flipCard, newValue, forceUpdate = false) {
 }
 
 // Function to update multiple digits
-function updateDigits(container, value, count = 2) {
+function updateDigits(container, value, count = 2, forceUpdate = false) {
     const flipCards = container.querySelectorAll('.flip-card');
     const paddedValue = value.toString().padStart(count, '0');
     
     [...flipCards].forEach((flipCard, index) => {
-        updateDigit(flipCard, paddedValue[index] || '0');
+        updateDigit(flipCard, paddedValue[index] || '0', forceUpdate);
     });
 }
 
 // Function to calculate time units
-function calculateTimeUnits(difference) {
-    const days = Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24)));
+function calculateTimeUnits() {
+    const now = getCurrentTime();
+    const difference = targetDate - now;
+    
+    // Calculate remaining time
+    const totalDays = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const remainingTime = difference % (1000 * 60 * 60 * 24);
+    
+    console.log('Current date:', now.toUTCString());
+    console.log('Target date:', targetDate.toUTCString());
+    console.log('Days remaining:', totalDays);
+    console.log('Remaining milliseconds:', remainingTime);
+    
+    const days = Math.max(0, totalDays);
+    
     const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
     
-    return { days, hours, minutes, seconds };
+    return {
+        days: Math.max(0, days),
+        hours: Math.max(0, hours),
+        minutes: Math.max(0, minutes),
+        seconds: Math.max(0, seconds)
+    };
 }
 
 // Function to update the countdown
-function updateCountdown() {
-    const now = new Date();
-    const difference = targetDate - now;
+function updateCountdown(forceUpdate = false) {
+    const timeUnits = calculateTimeUnits();
     
-    if (difference <= 0) {
-        // If we've reached or passed the target date
-        updateDigits(daysDigits, 0, 1);
-        updateDigits(hoursDigits, 0);
-        updateDigits(minutesDigits, 0);
-        updateDigits(secondsDigits, 0);
-        return;
-    }
+    // Calculate required digits for days
+    const daysLength = timeUnits.days.toString().length;
+    const digitsNeeded = Math.max(2, daysLength); // At least 2 digits
     
-    const timeUnits = calculateTimeUnits(difference);
-    
-    updateDigits(daysDigits, timeUnits.days, 1);
-    updateDigits(hoursDigits, timeUnits.hours);
-    updateDigits(minutesDigits, timeUnits.minutes);
-    updateDigits(secondsDigits, timeUnits.seconds);
+    console.log('Days value:', timeUnits.days); // Debug days value
+    updateDigits(daysDigits, timeUnits.days, digitsNeeded, forceUpdate);
+    updateDigits(hoursDigits, timeUnits.hours, 2, forceUpdate);
+    updateDigits(minutesDigits, timeUnits.minutes, 2, forceUpdate);
+    updateDigits(secondsDigits, timeUnits.seconds, 2, forceUpdate);
 }
 
 // Function to display a random quote
@@ -107,39 +151,23 @@ function displayRandomQuote() {
 
 // Initialize
 function init() {
-    const timeUnits = calculateTimeUnits(targetDate - new Date());
-    
     // Set initial values without animation
-    document.querySelectorAll('.card-face').forEach(face => {
-        if (face.parentElement.parentElement.parentElement.classList.contains('days')) {
-            face.textContent = timeUnits.days.toString().padStart(1, '0');
-        } else if (face.parentElement.parentElement.parentElement.classList.contains('hours')) {
-            const digit = face.parentElement.parentElement.parentElement.children[1] === face.parentElement.parentElement ? 
-                timeUnits.hours % 10 : Math.floor(timeUnits.hours / 10);
-            face.textContent = digit;
-        } else if (face.parentElement.parentElement.parentElement.classList.contains('minutes')) {
-            const digit = face.parentElement.parentElement.parentElement.children[1] === face.parentElement.parentElement ? 
-                timeUnits.minutes % 10 : Math.floor(timeUnits.minutes / 10);
-            face.textContent = digit;
-        } else if (face.parentElement.parentElement.parentElement.classList.contains('seconds')) {
-            const digit = face.parentElement.parentElement.parentElement.children[1] === face.parentElement.parentElement ? 
-                timeUnits.seconds % 10 : Math.floor(timeUnits.seconds / 10);
-            face.textContent = digit;
-        }
-    });
-    
+    updateCountdown(true);
     displayRandomQuote();
 }
 
 // Start the application
 init();
 
-// Update countdown every second
-const countdown = setInterval(updateCountdown, 1000);
-
-// Optional: Update immediately when the page becomes visible again
-document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-        updateCountdown();
-    }
-});
+// Start updates after a short delay to ensure proper initialization
+setTimeout(() => {
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+    
+    // Optional: Update immediately when the page becomes visible again
+    document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+            updateCountdown();
+        }
+    });
+}, 100);
