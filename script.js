@@ -11,7 +11,7 @@ const quotes = [
 ];
 
 // Set target date to June 20, 2025 midnight Jerusalem time
-const targetDate = new Date(Date.UTC(2025, 5, 19, 21, 0, 0, 0)); // 00:00 Jerusalem time (UTC+3) on June 20
+const targetDate = new Date('2025-06-20T00:00:00+03:00');
 console.log('Initial target date:', targetDate.toUTCString()); // Debug target date
 
 // DOM elements
@@ -31,25 +31,17 @@ const lastUpdates = new Map();
 // Function to get current time in Jerusalem timezone
 function getCurrentTime() {
     const now = new Date();
-    // Get current time in UTC
-    const utcHours = now.getUTCHours();
-    const utcMinutes = now.getUTCMinutes();
-    const utcSeconds = now.getUTCSeconds();
-    const utcMs = now.getUTCMilliseconds();
     
-    // Create new date with Jerusalem time (UTC+3)
-    const jerusalemTime = new Date(Date.UTC(
-        now.getUTCFullYear(),
-        now.getUTCMonth(),
-        now.getUTCDate(),
-        utcHours + 3, // Add 3 hours for Jerusalem timezone
-        utcMinutes,
-        utcSeconds,
-        utcMs
-    ));
+    // Get time in Jerusalem timezone
+    const jerusalemTime = new Date(now.toLocaleString('en-US', {
+        timeZone: 'Asia/Jerusalem'
+    }));
     
+    console.log('Debug getCurrentTime:');
+    console.log('Browser local time:', now.toString());
     console.log('UTC time:', now.toUTCString());
-    console.log('Jerusalem time:', jerusalemTime.toISOString());
+    console.log('Jerusalem time:', jerusalemTime.toString());
+    
     return jerusalemTime;
 }
 
