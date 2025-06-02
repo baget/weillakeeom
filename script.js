@@ -5,7 +5,7 @@ const quotes = [
     { text: "It is a Firmware Bug", author: "Oren" },
     { text: "It is a Hardware Bug", author: "Oren" },
     { text: "Works on my platform", author: "Oren" },
-    { text: "It complied", author: "Oren" },
+    { text: "It compiled", author: "Oren" },
     { text: "Validation didn't test it", author: "Oren" },
     { text: "I ran UT17 on it", author: "Oren" }
 ];
