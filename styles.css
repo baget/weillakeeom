@@ -19,7 +19,6 @@ body {
     background: #000;
     color: #fff;
     position: relative;
-    overflow: hidden;
 }
 
 #matrix-bg {
@@ -203,6 +202,19 @@ cite {
 }
 
 @media (max-width: 768px) {
+    body {
+        height: auto;
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
     h1 {
         font-size: 2rem;
         margin-bottom: 2rem;
@@ -242,5 +254,9 @@ cite {
 
     cite {
         font-size: 1rem;
+    }
+
+    .refresh-button {
+        margin-bottom: 2rem;
     }
 }
