@@ -147,6 +147,10 @@ function init() {
     // Set initial values without animation
     updateCountdown(true);
     displayRandomQuote();
+
+    // Add refresh quote button listener
+    const refreshButton = document.getElementById('refresh-quote');
+    refreshButton.addEventListener('click', displayRandomQuote);
 }
 
 // Start the application
