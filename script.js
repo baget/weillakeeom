@@ -8,7 +8,8 @@ const quotes = [
     { text: "It compiled", author: "Oren" },
     { text: "Validation didn't test it", author: "Oren" },
     { text: "I ran UT17 on it", author: "Oren" },
-    { text: "There are no bugs in Software", author: "Oren" }
+    { text: "There are no bugs in Software", author: "Oren" },
+    { text: "Kartik! Kartik!", author: "Oren" }
 ];
 
 // Set target date to June 20, 2025 midnight Jerusalem time
