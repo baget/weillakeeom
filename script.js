@@ -94,28 +94,31 @@ function updateDigits(container, value, count = 2, forceUpdate = false) {
 // Function to calculate time units
 function calculateTimeUnits() {
     const now = getCurrentTime();
-    const difference = targetDate - now;
+    let difference = targetDate - now;
     
-    // Calculate remaining time
+    // If target date has passed, use absolute value for counting up
+    const isCountingUp = difference < 0;
+    difference = Math.abs(difference);
+    
+    // Calculate time units
     const totalDays = Math.floor(difference / (1000 * 60 * 60 * 24));
     const remainingTime = difference % (1000 * 60 * 60 * 24);
     
     console.log('Current date:', now.toUTCString());
     console.log('Target date:', targetDate.toUTCString());
-    console.log('Days remaining:', totalDays);
-    console.log('Remaining milliseconds:', remainingTime);
-    
-    const days = Math.max(0, totalDays);
+    console.log(isCountingUp ? 'Days passed:' : 'Days remaining:', totalDays);
+    console.log('Milliseconds:', remainingTime);
     
     const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
     
     return {
-        days: Math.max(0, days),
-        hours: Math.max(0, hours),
-        minutes: Math.max(0, minutes),
-        seconds: Math.max(0, seconds)
+        days: totalDays,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        isCountingUp: isCountingUp
     };
 }
 
@@ -128,6 +131,16 @@ function updateCountdown(forceUpdate = false) {
     const digitsNeeded = Math.max(2, daysLength); // At least 2 digits
     
     console.log('Days value:', timeUnits.days); // Debug days value
+    
+    // Update title based on counting direction
+    const title = document.querySelector('h1');
+    if (timeUnits.isCountingUp) {
+        title.textContent = 'Time Since Weil Lake EOM';
+    } else {
+        title.textContent = 'Weil Lake EOM (20-June-2025)';
+    }
+    
+    // Update digits
     updateDigits(daysDigits, timeUnits.days, digitsNeeded, forceUpdate);
     updateDigits(hoursDigits, timeUnits.hours, 2, forceUpdate);
     updateDigits(minutesDigits, timeUnits.minutes, 2, forceUpdate);
